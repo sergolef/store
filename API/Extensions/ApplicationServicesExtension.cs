@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Interfaces;
 using Infrastructure.Data;
 // using API.Helpers;
 // using API.Intrefaces;
@@ -18,7 +19,7 @@ namespace API.Extensions
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 
             //add repositories
-            // services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             // services.AddScoped<ILikeRepository, LikeRepository>();
             // services.AddScoped<IMessageRepository, MessageRepository>();
 
