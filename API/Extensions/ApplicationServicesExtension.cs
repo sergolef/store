@@ -20,6 +20,11 @@ namespace API.Extensions
 
             //add repositories
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
             // services.AddScoped<ILikeRepository, LikeRepository>();
             // services.AddScoped<IMessageRepository, MessageRepository>();
 

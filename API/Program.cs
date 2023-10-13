@@ -33,6 +33,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+app.UseStaticFiles();
+
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
