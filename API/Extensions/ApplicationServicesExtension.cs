@@ -1,9 +1,13 @@
 ﻿using System;
+using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+
 // using API.Helpers;
 // using API.Intrefaces;
 // using API.Services;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -24,6 +28,8 @@ namespace API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            
             
             // services.AddScoped<ILikeRepository, LikeRepository>();
             // services.AddScoped<IMessageRepository, MessageRepository>();

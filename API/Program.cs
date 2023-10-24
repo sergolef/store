@@ -1,5 +1,8 @@
+using API.Errors;
 using API.Extensions;
+using API.Middleware;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +21,32 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+//configure service for collecting validation errors in one enumerable string list
+builder.Services.Configure<ApiBehaviorOptions>(options => {
+    options.InvalidModelStateResponseFactory = actionContext => {
+        
+        var errors = actionContext.ModelState
+            .Where(e => e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors)
+            .Select(x => x.ErrorMessage).ToArray();
+
+            var errorResponse = new ApiValidationsErrorResponce
+            {
+                Errors = errors
+            };
+
+            return new BadRequestObjectResult(errorResponse);
+    };
+});
 
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddelware>();
+
 // Configure the HTTP request pipeline.
+app.UseStatusCodePagesWithReExecute("/errors/{id}");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
