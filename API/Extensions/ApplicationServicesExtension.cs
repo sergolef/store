@@ -53,6 +53,12 @@ namespace API.Extensions
             // //add mapers
             // services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
+            //add CORS support
+            services.AddCors( opt => {
+                opt.AddPolicy("CorsPolicy", policy => {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
             return services;
         }
     }

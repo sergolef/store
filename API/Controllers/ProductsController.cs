@@ -11,6 +11,7 @@ using Core.Specifications;
 using API.Dtos;
 using AutoMapper;
 using API.Errors;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -30,11 +31,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList <ProductToOutputDto>>> GetProducts(string sort, int? brandId, int? typeId)
+        public async Task<ActionResult<Pagination <ProductToOutputDto>>> GetProducts([FromQuery]ProductParamsSpec productParams)
         {
-            var spec = new ProductWithBrandsAndTypesSpecification(sort, brandId, typeId);
+            var spec = new ProductWithBrandsAndTypesSpecification(productParams);
+            var specForCount = new ProductWithFiltersForCountSpecification(productParams);
+
             var products = await _productRepo.ListAsync(spec);
-            return Ok( _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToOutputDto>>(products)) ;
+
+            var pageSize = productParams.PageSize;
+            var pageIndex = productParams.PageIndex;
+
+            var pageCount = await _productRepo.CountAsync(specForCount);
+
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToOutputDto>>(products);
+
+            return Ok( new Pagination<ProductToOutputDto>(pageSize, pageIndex, pageCount, data)) ;
         }
 
         [HttpGet("{id}")]
