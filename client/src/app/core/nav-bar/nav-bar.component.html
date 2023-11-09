@@ -1,15 +1,17 @@
 <header class="d-flex flex-row align-items-center justify-content-between 
 p-3 px-4 mb-3 border-bottom fixed-top shadow-sm border-bottom bg-white">
     
-      <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+      <a  class="d-flex align-items-center text-dark text-decoration-none logo-element" routerLink="/">
         <i class="fa fa-circle-thin fa-2x bg-white"></i>
       </a>
 
       <nav class="my-2 text-uppercase fs-4">
-        <a class=" p-2 text-dark text-decoration-none" href="#">Home</a>
-        <a class=" p-2 text-dark text-decoration-none" href="#">Shop</a>
-        <a class=" p-2 text-dark text-decoration-none" href="#">Support</a>
-        <a class="p-2 text-dark text-decoration-none" href="#">Contact Us</a>
+        <a class=" p-2 text-dark text-decoration-none" 
+          routerLink="/" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{exact:true}">Home</a>
+        <a class=" p-2 text-dark text-decoration-none" routerLink="/shop" routerLinkActive="active">Shop</a>
+        <a class="p-2 text-dark text-decoration-none" routerLink="/" routerLinkActive="active">Contact Us</a>
       </nav>
    
       <div class="d-flex align-items-center">

@@ -9,3 +9,16 @@
     min-width: 25px;
     min-height: 25px;
 }
+
+a {
+    text-decoration: none;
+    color: #ccc;
+    cursor: pointer;
+    &.active {
+        color: orange !important;
+    }
+}
+
+.logo-element {
+    cursor: pointer;
+}
