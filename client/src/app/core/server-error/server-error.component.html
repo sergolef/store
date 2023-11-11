@@ -1,0 +1,19 @@
+<div class="row mt-4">
+    <h4>Internal server error</h4>
+    <ng-container *ngIf="error">
+        <p class="text-danger">
+            {{error.message}}
+        </p>
+        <p class="text-bold">
+            This error from the  API server
+        </p>
+
+        <div class="row">
+            <h4>Stack trace:</h4>
+            <code class="mt-4" style="background-color: beige;">
+                {{error.details}}
+            </code>
+        </div>
+    </ng-container>
+
+</div>
