@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { ErrorTestComponent } from './error-test/error-test.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
+import { HeaderSectionComponent } from './header-section/header-section.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -13,14 +16,22 @@ import { ServerErrorComponent } from './server-error/server-error.component';
     NavBarComponent,
     ErrorTestComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    HeaderSectionComponent
+    
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    BreadcrumbModule,
+    NgxSpinnerModule.forRoot({
+      type: 'ball-scale-multiple'
+    })
   ],
   exports: [
-    NavBarComponent
+    NavBarComponent,
+    HeaderSectionComponent,
+    NgxSpinnerModule
   ]
 })
 export class CoreModule { }
