@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 // using API.Services;
 
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace API.Extensions
 {
@@ -29,15 +30,25 @@ namespace API.Extensions
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<IBasketRepository, BasketRepository>();
+
             
             
             // services.AddScoped<ILikeRepository, LikeRepository>();
             // services.AddScoped<IMessageRepository, MessageRepository>();
 
+            //mysql connection
             services.AddDbContext<StoreContext>(options =>
             {
                 options.UseMySql(connectionString, serverVersion);
             });
+
+            //add redis connection
+            services.AddSingleton<IConnectionMultiplexer>( c => {
+                var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(options);
+            });
+
 
             // services.AddSpaStaticFiles(configuration =>
             // {
