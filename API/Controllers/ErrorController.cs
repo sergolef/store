@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("errors/{id}")]
     public class ErrorController :BaseApiController
     {
-        [HttpGet("errors/{code}")]
-        public IActionResult Error(int code){
-            return new ObjectResult(new ApiResponse(code));
+        
+        public IActionResult Error(int? id = null){
+            
+            var st = id.HasValue ? id.Value : 500;
+            return new ObjectResult(new ApiResponse(st));
         }
     }
 }

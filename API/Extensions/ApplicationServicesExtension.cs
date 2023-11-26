@@ -2,6 +2,7 @@
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // using API.Helpers;
@@ -25,13 +26,14 @@ namespace API.Extensions
 
             //add repositories
             services.AddScoped<IProductRepository, ProductRepository>();
-
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IBasketRepository, BasketRepository>();
 
+            
             
             
             // services.AddScoped<ILikeRepository, LikeRepository>();

@@ -10,9 +10,9 @@ namespace API.Middleware
 {
     public class ExceptionMiddelware
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddelware> _logger;
-        private readonly IHostEnvironment _env;
+        private  RequestDelegate _next;
+        private  ILogger<ExceptionMiddelware> _logger;
+        private  IHostEnvironment _env;
 
         public ExceptionMiddelware( RequestDelegate next, ILogger<ExceptionMiddelware> logger, IHostEnvironment env)
         {
@@ -30,6 +30,7 @@ namespace API.Middleware
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.ContentType ="application/json";
+                _logger.LogError(ex.StackTrace.ToString());
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 
                 var response = _env.IsDevelopment() ?

@@ -1,7 +1,11 @@
 using API.Errors;
 using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 
 builder.Services.AddAplicationServices(builder.Configuration); 
+builder.Services.AddIdentityServices(builder.Configuration);
 
 
 // Add services to the container.
@@ -45,7 +50,7 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddelware>();
 
 // Configure the HTTP request pipeline.
-app.UseStatusCodePagesWithReExecute("/errors/{id}");
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,24 +58,32 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 //app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseStaticFiles();
 
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
+//var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+//var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
 var loger = services.GetRequiredService<ILogger<Program>>();
 
 try
 {
     await context.Database.MigrateAsync();
+    //seeding default user for login
+   // await identityContext.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context);
+   /// await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+    
 }
 catch (Exception ex)
 {
