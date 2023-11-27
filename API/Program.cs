@@ -17,13 +17,14 @@ var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 builder.Services.AddAplicationServices(builder.Configuration); 
 builder.Services.AddIdentityServices(builder.Configuration);
 
+builder.Services.AddSwaggerDocumentation();
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 
 //configure service for collecting validation errors in one enumerable string list
@@ -54,8 +55,7 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerDomumentstion();
 }
 
 app.UseStaticFiles();
