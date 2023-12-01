@@ -8,6 +8,7 @@ import { ServerErrorComponent } from './server-error/server-error.component';
 import { HeaderSectionComponent } from './header-section/header-section.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -26,7 +27,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     BreadcrumbModule,
     NgxSpinnerModule.forRoot({
       type: 'ball-scale-multiple'
-    })
+    }),
+    SharedModule
   ],
   exports: [
     NavBarComponent,
