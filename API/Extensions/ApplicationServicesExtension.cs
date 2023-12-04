@@ -25,8 +25,12 @@ namespace API.Extensions
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 
             //add repositories
-            services.AddScoped<IProductRepository, ProductRepository>();
+            
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
