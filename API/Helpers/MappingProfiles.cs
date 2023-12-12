@@ -24,7 +24,7 @@ namespace API.Helpers
                 .ForMember(p => p.LastName,  s => s.MapFrom(s => s.LastName))
                 .ForMember(p => p.City,  s => s.MapFrom(s => s.City))
                 .ForMember(p => p.State,  s => s.MapFrom(s => s.State))
-                .ForMember(p => p.ZipCode,  s => s.MapFrom(s => s.ZipCode))
+                .ForMember(p => p.Zipcode,  s => s.MapFrom(s => s.ZipCode))
                 .ForMember(p => p.Street,  s => s.MapFrom(s => s.Street)).ReverseMap();
             
             CreateMap<CustomerBasket, CustomerBusketDto>().ReverseMap();

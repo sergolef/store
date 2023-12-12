@@ -1,7 +1,7 @@
 export interface User {
     email:string
     displayName:string
-    token:String
+    token:string
 }
 
 export interface Address {
@@ -10,5 +10,5 @@ export interface Address {
     street: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
 }
