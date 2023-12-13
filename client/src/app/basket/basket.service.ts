@@ -5,7 +5,7 @@ import { Basket, BasketItem, BasketTotals } from '../shared/models/basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
 import { DeliveryMethod } from '../shared/models/deliveryMethod';
-import { ShopRoutingModule } from '../shop/shop-routing.module';
+
 
 @Injectable({
   providedIn: 'root'

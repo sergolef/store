@@ -3,4 +3,10 @@
         <i class="fa fa-check-circle fa-5x" style="color:green"></i>
     </div>
     <h2>Thank you. Your order is confirmed</h2>
+    <ng-container *ngIf="order">
+        <button class="btn btn-outline-success" routerLink="/orders/{{order.id}}">View Order</button>
+    </ng-container>
+    <ng-container *ngIf="!order">
+        <button class="btn btn-outline-success" routerLink="/orders">View Orders</button>
+    </ng-container>
 </div>

@@ -12,10 +12,12 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
