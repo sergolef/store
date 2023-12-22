@@ -3,6 +3,7 @@ using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -36,11 +37,30 @@ namespace Infrastructure.Services
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodsId);
             //calc subtotal
             var subtotal = items.Sum(item => item.Price * item.Quantity);
-            //create order
-            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal, "TTT");
+
+            //check if order with intent id exists
+            var spec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+            if(order != null)
+            {
+                
+                order.ShipToAddress = shippingAddress;
+                order.DeliveryMethod = deliveryMethod;
+                order.Subtotal = subtotal;
+                _unitOfWork.Repository<Order>().Update(order); 
+            }
+            else
+            {
+                //create order
+                order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal,
+                    basket.PaymentIntentId);
+                _unitOfWork.Repository<Order>().Add(order);
+            }
+
+            
             
             //save to db
-            _unitOfWork.Repository<Order>().Add(order);
+            
             var result = await _unitOfWork.Complete();
 
             if(result <= 0){
@@ -48,7 +68,7 @@ namespace Infrastructure.Services
             }
 
             //delete basket
-            await _basketRepo.DeleteCustomerBasket(basketId);
+            //await _basketRepo.DeleteCustomerBasket(basketId);
             
             //return order
             return order;
