@@ -26,6 +26,8 @@ namespace API.Extensions
 
             //add repositories
             
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Infrastructure.Data;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
 using Core.Specifications;
 using API.Dtos;
@@ -31,6 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Cached(600)]
         public async Task<ActionResult<Pagination <ProductToOutputDto>>> GetProducts([FromQuery]ProductParamsSpec productParams)
         {
             var spec = new ProductWithBrandsAndTypesSpecification(productParams);
@@ -48,6 +43,7 @@ namespace API.Controllers
             return Ok( new Pagination<ProductToOutputDto>(pageSize, pageIndex, pageCount, data)) ;
         }
 
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,12 +57,14 @@ namespace API.Controllers
             return _mapper.Map<Product, ProductToOutputDto>(product);
         }
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<Product>> GetProductBrands(){
             return  Ok(await _productBrandRepo.ListAllAsync());
         }
 
-         [HttpGet("types")]
+        [Cached(600)]
+        [HttpGet("types")]
         public async Task<ActionResult<Product>> GetProductTypes(){
             return  Ok(await _productTypeRepo.ListAllAsync());
         }

@@ -1,0 +1,10 @@
+.list-group-item {
+    font-size: 1.1em;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+
+    &:not(.active):hover {
+        background-color: #e75194;
+    }
+}

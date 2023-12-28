@@ -15,7 +15,7 @@ export class ShopComponent implements OnInit {
   products: Product[] = [];
   brands: Brand[] = [];
   types: Type[] = [];
-  shopParams: ShopParams = new ShopParams();
+  shopParams: ShopParams;
   totalItems: number = 0;
 
   sortSelectItems = [
@@ -26,7 +26,9 @@ export class ShopComponent implements OnInit {
 
 
 
-  constructor(private shopService: ShopService){}
+  constructor(private shopService: ShopService){
+    this.shopParams = shopService.getShopParams();
+  }
 
   ngOnInit(): void {
     this.getProductsList();
@@ -35,17 +37,32 @@ export class ShopComponent implements OnInit {
   }
 
   onTypeSelected(typeId:number): void{
-    this.shopParams.typeId = typeId;
+    const params = this.shopService.getShopParams();
+    params.typeId = typeId;
+    params.pageIndex = 1;
+    this.shopParams = params;
+    this.shopService.setShopParams(params);
+
     this.getProductsList();
   }
 
   onBrandSelected(brandId:number):void{
-    this.shopParams.brandId = brandId;
+    const params = this.shopService.getShopParams();
+    params.brandId = brandId;
+    params.pageIndex = 1;
+    this.shopService.setShopParams(params);
+    this.shopParams = params;
+  
     this.getProductsList();
   }
 
   onSortSelect(event:any){
-    this.shopParams.sort = event.target.value;
+    const params = this.shopService.getShopParams();
+
+    params.sort = event.target.value;
+    this.shopService.setShopParams(params);
+    this.shopParams = params;
+
     this.getProductsList();
   }
 
@@ -58,10 +75,10 @@ export class ShopComponent implements OnInit {
   }
 
   getProductsList(): void{
-    this.shopService.getProducts(this.shopParams).subscribe({
+    this.shopService.getProducts().subscribe({
       next: responce => {
-        this.shopParams.pageIndex = responce.pageIndex;
-        this.shopParams.pageSize = responce.pageSize;
+        // this.shopParams.pageIndex = responce.pageIndex;
+        // this.shopParams.pageSize = responce.pageSize;
         this.totalItems = responce.pageCount;
         this.products = responce.data;
       },

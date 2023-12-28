@@ -8,6 +8,7 @@
             <h5 class="text-warning ms-3">Sort</h5>
             <select name="" id="" class="form-control my-3" (change)="onSortSelect($event)">
                 <option  *ngFor="let option of sortSelectItems"
+                    [selected]="shopParams.sort === option.id"
                     [value]="option.id"
                     [class.active]="option.id===shopParams.sort"
                 >{{option.name}}</option>
@@ -56,6 +57,7 @@
             <app-pager
                 [pageSize]="shopParams.pageSize"
                 [totalItems]="totalItems"
+                [pageNumber]="shopParams.pageIndex"
                 (pageChanged)="onPageChange($event)"
             ></app-pager>
            </div>
