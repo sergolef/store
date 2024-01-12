@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 // using API.Services;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql;
 using StackExchange.Redis;
 
 namespace API.Extensions
@@ -22,7 +24,7 @@ namespace API.Extensions
 
             //services.Configure<CloudinaryConfig>(config.GetSection("CloudinarySettings"));
 
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
+            //var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 
             //add repositories
             
@@ -47,9 +49,21 @@ namespace API.Extensions
             // services.AddScoped<IMessageRepository, MessageRepository>();
 
             //mysql connection
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+            var searchPaths = connectionStringBuilder.SearchPath?.Split(',');
+
             services.AddDbContext<StoreContext>(options =>
             {
-                options.UseMySql(connectionString, serverVersion);
+                options.UseNpgsql(connectionString, o =>
+                {
+                    //configure(o);
+
+                    if (searchPaths is {Length: > 0})
+                    {
+                        var mainSchema = searchPaths[0];
+                        o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, mainSchema);
+                    }
+                });
             });
 
             //add redis connection

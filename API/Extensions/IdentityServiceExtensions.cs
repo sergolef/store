@@ -22,11 +22,11 @@ namespace API.Extensions
         {
             var connectionString = config.GetConnectionString("IdentityConnection");
 
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
+            //var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 
             services.AddDbContext<AppIdentityDbContext>(options =>
             {
-                options.UseMySql(connectionString, serverVersion);
+                options.UseNpgsql(connectionString);
             });
 
             services.AddIdentityCore<AppUser>(options => {

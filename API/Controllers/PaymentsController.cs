@@ -16,14 +16,16 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly ILogger _logger;
+        
 
-        public PaymentsController( IPaymentService paymentService, ILogger<PaymentsController> logger)
+        public PaymentsController( IPaymentService paymentService, ILogger<PaymentsController> logger, IConfiguration config)
         {
             _paymentService = paymentService;
             _logger = logger;
+            _endpointSecret = config.GetSection("StripeSettings:WhSecret").Value;
         }
 
-        private const string endpointSecret = "whsec_1c11e2b091fcd9080f24187f65ca5c04717a5001d11f14ed0bfbc3c09eed26a5";
+        private readonly string _endpointSecret;
 
         [Authorize]
         [HttpPost("{basketId}")]
@@ -43,7 +45,7 @@ namespace API.Controllers
             try
             {
                 var stripeEvent = EventUtility.ConstructEvent(json,
-                    Request.Headers["Stripe-Signature"], endpointSecret);
+                    Request.Headers["Stripe-Signature"], _endpointSecret);
 
                 PaymentIntent intent;
                 Order order;

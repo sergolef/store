@@ -1,8 +1,30 @@
 {
-    "editor.fontSize": 10,
-    "debug.console.fontSize": 11,
-    "scm.inputFontSize": 12,
-    "terminal.integrated.fontSize": 12,
-    "chat.editor.fontSize": 12,
-    "markdown.preview.fontSize": 12
+    "deploy.reloaded": {
+        "packages": [
+            {
+                "name": "Version 1.0.0",
+                "description": "Package version 1.0.0",
+
+                "files": [
+                    "publish/**"
+                ]
+            }
+        ],
+
+        "targets": [
+            {
+                "type": "sftp",
+                "name": "Linux",
+                "description": "SFTP folder",
+
+                "host": "138.197.166.161", "port": 22,
+                "user": "root", "password": "Gtd%3#Mold1a",
+
+                "dir": "/var/skinet",
+                "mappings": {
+                    "publish/**": "/"
+                }
+            }
+        ]
+    }
 }
